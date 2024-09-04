@@ -19,15 +19,23 @@ public class AppFrame extends JFrame {
         // Initialize and add different panels to the main panel
         LoginPanel loginPanel = new LoginPanel(this);
         CreateProfilePanel createProfilePanel = new CreateProfilePanel(this);
+        ShopPanel shopPanel = new ShopPanel(this);
 
         mainPanel.add(loginPanel, "LoginPanel");
         mainPanel.add(createProfilePanel, "CreateProfilePanel");
+        mainPanel.add(shopPanel, "ShopPanel");
 
         add(mainPanel);
     }
 
     public void switchTo(String panelName) {
         cardLayout.show(mainPanel, panelName);
+        // Adjust frame size if needed when switching panels
+        if (panelName.equals("ShopPanel")) {
+            setSize(400, 500);
+        } else {
+            setSize(350, 250);
+        }
     }
 
     public static void main(String[] args) {

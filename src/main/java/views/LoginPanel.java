@@ -40,7 +40,11 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleLogin();
+                if(handleLogin()){
+                    appFrame.switchTo("ShopPanel"); // Switch to ShopPanel after successful login
+                } else {
+
+                }
             }
         });
 
@@ -52,16 +56,18 @@ public class LoginPanel extends JPanel {
         });
     }
 
-    private void handleLogin() {
+    private boolean handleLogin() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
         if (true) {
             statusLabel.setText("Login successful!");
             statusLabel.setForeground(Color.GREEN);
+            return true;
         } else {
             statusLabel.setText("Invalid username or password.");
             statusLabel.setForeground(Color.RED);
+            return false;
         }
     }
 }
