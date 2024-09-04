@@ -20,10 +20,14 @@ public class AppFrame extends JFrame {
         LoginPanel loginPanel = new LoginPanel(this);
         CreateProfilePanel createProfilePanel = new CreateProfilePanel(this);
         ShopPanel shopPanel = new ShopPanel(this);
+        UserProfilePanel userProfilePanel = new UserProfilePanel(this);
+        CartPanel cartPanel = new CartPanel(this);
 
         mainPanel.add(loginPanel, "LoginPanel");
         mainPanel.add(createProfilePanel, "CreateProfilePanel");
         mainPanel.add(shopPanel, "ShopPanel");
+        mainPanel.add(userProfilePanel, "UserProfilePanel");
+        mainPanel.add(cartPanel, "CartPanel");
 
         add(mainPanel);
     }
@@ -33,6 +37,8 @@ public class AppFrame extends JFrame {
         // Adjust frame size if needed when switching panels
         if (panelName.equals("ShopPanel")) {
             setSize(400, 500);
+        } else if (panelName.equals("UserProfilePanel")) {
+            setSize(350, 300);
         } else {
             setSize(350, 250);
         }

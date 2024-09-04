@@ -8,17 +8,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopPanel extends JPanel {
-    private List<Article> article;
+    private List<Article> articles;
     private AppFrame appFrame;
 
     public ShopPanel(AppFrame appFrame) {
         this.appFrame = appFrame;
-        this.article = createArticles();
-        setLayout(new GridLayout(article.size(), 1, 10, 10));
+        this.articles = createArticles();
+        setLayout(new GridLayout(articles.size() + 2, 1, 10, 10));
 
-        for (Article article : article) {
+        JPanel appBar = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton profileButton = new JButton("My profile");
+        JButton logoutButton = new JButton("Logout");
+
+        buttonPanel.add(profileButton);
+        buttonPanel.add(logoutButton);
+        appBar.add(buttonPanel, BorderLayout.NORTH);
+
+        add(appBar);
+
+        for (Article article : articles) {
             add(createArticlePanel(article));
         }
+
+        JPanel buyPanel = new JPanel();
+        JButton buyButton = new JButton("Buy");
+        buyPanel.add(buyButton, BorderLayout.EAST);
+        add(buyPanel);
+
+        profileButton.addActionListener(e -> appFrame.switchTo("UserProfilePanel"));
+        logoutButton.addActionListener(e -> appFrame.switchTo("LoginPanel"));
+        buyButton.addActionListener(e -> appFrame.switchTo("CartPanel"));
     }
 
     private JPanel createArticlePanel(Article article) {
