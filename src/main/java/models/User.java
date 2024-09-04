@@ -13,6 +13,14 @@ public class User {
     Map<Article, Integer> articles;
 
 
+    public User(int userId, String username, String password, String email, String address) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+    }
+
     public User(int userId, String username, String password, String email, String address, Map<Article, Integer> articles) {
         this.userId = userId;
         this.username = username;

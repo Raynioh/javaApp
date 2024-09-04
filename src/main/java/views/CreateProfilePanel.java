@@ -1,5 +1,7 @@
 package views;
 
+import controllers.LoginController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,8 @@ public class CreateProfilePanel extends JPanel {
     private JTextField emailField;
     private JTextField addressField;
     private JLabel statusLabel;
+    private LoginController lc = new LoginController();
+
 
     public CreateProfilePanel(AppFrame appFrame) {
         setLayout(new BorderLayout());
@@ -68,7 +72,7 @@ public class CreateProfilePanel extends JPanel {
         String email = emailField.getText();
         String address = addressField.getText();
 
-        if (true) {
+        if (lc.createProfile(username, password, email, address)) {
             statusLabel.setText("Profile created successfully!");
             statusLabel.setForeground(Color.GREEN);
         } else {

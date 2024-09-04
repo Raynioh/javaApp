@@ -1,14 +1,20 @@
 package views;
 
+import controllers.LoginController;
+import models.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginPanel extends JPanel {
+
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JLabel statusLabel;
+    private LoginController lc = new LoginController();
+
 
     public LoginPanel(AppFrame appFrame) {
         setLayout(new BorderLayout());
@@ -40,7 +46,10 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(handleLogin()){
+                User user = handleLogin();
+
+                //prominiti u !=
+                if(user == null){
                     appFrame.switchTo("ShopPanel"); // Switch to ShopPanel after successful login
                 } else {
 
@@ -56,18 +65,19 @@ public class LoginPanel extends JPanel {
         });
     }
 
-    private boolean handleLogin() {
+    private User handleLogin() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (true) {
+        User user = lc.getUser(username, password);
+        if (user != null) {
             statusLabel.setText("Login successful!");
             statusLabel.setForeground(Color.GREEN);
-            return true;
         } else {
             statusLabel.setText("Invalid username or password.");
             statusLabel.setForeground(Color.RED);
-            return false;
         }
+
+        return user;
     }
 }
