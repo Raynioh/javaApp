@@ -1,11 +1,14 @@
 package views;
 
+import models.User;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AppFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private User currentUser;
 
     public AppFrame() {
         setTitle("User Authentication App");
@@ -19,15 +22,15 @@ public class AppFrame extends JFrame {
         // Initialize and add different panels to the main panel
         LoginPanel loginPanel = new LoginPanel(this);
         CreateProfilePanel createProfilePanel = new CreateProfilePanel(this);
-        ShopPanel shopPanel = new ShopPanel(this);
-        UserProfilePanel userProfilePanel = new UserProfilePanel(this);
-        CartPanel cartPanel = new CartPanel(this);
+//        ShopPanel shopPanel = new ShopPanel(this);
+//        UserProfilePanel userProfilePanel = new UserProfilePanel(this);
+//        CartPanel cartPanel = new CartPanel(this);
 
         mainPanel.add(loginPanel, "LoginPanel");
         mainPanel.add(createProfilePanel, "CreateProfilePanel");
-        mainPanel.add(shopPanel, "ShopPanel");
-        mainPanel.add(userProfilePanel, "UserProfilePanel");
-        mainPanel.add(cartPanel, "CartPanel");
+//        mainPanel.add(shopPanel, "ShopPanel");
+//        mainPanel.add(userProfilePanel, "UserProfilePanel");
+//        mainPanel.add(cartPanel, "CartPanel");
 
         add(mainPanel);
     }
@@ -42,6 +45,32 @@ public class AppFrame extends JFrame {
         } else {
             setSize(350, 250);
         }
+    }
+
+    public void showCart() {
+        CartPanel cartPanel = new CartPanel(this, currentUser);
+        mainPanel.add(cartPanel, "CartPanel");
+        switchTo("CartPanel");
+    }
+
+    public void showShop() {
+        ShopPanel shopPanel = new ShopPanel(this, currentUser);
+        mainPanel.add(shopPanel, "ShopPanel");
+        switchTo("ShopPanel");
+    }
+
+    public void showUserProfile() {
+        UserProfilePanel userProfilePanel = new UserProfilePanel(this, currentUser);
+        mainPanel.add(userProfilePanel, "UserProfilePanel");
+        switchTo("UserProfilePanel");
+    }
+
+    public void setUser(User user) {
+        this.currentUser = user;
+    }
+
+    public void logoutUser() {
+        this.currentUser = null;
     }
 
     public static void main(String[] args) {

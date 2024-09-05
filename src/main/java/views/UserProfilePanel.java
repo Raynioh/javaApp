@@ -1,12 +1,14 @@
 package views;
 
+import models.User;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class UserProfilePanel extends JPanel {
     private AppFrame appFrame;
 
-    public UserProfilePanel(AppFrame appFrame) {
+    public UserProfilePanel(AppFrame appFrame, User user) {
         this.appFrame = appFrame;
 
         setLayout(new BorderLayout());
@@ -42,7 +44,12 @@ public class UserProfilePanel extends JPanel {
         add(profileContent, BorderLayout.CENTER);
 
         // Button actions
-        backToShopButton.addActionListener(e -> appFrame.switchTo("ShopPanel"));
-        logoutButton.addActionListener(e -> appFrame.switchTo("LoginPanel"));
+        backToShopButton.addActionListener(e -> {
+            appFrame.showShop();
+        });
+        logoutButton.addActionListener(e -> {
+            appFrame.logoutUser();
+            appFrame.switchTo("LoginPanel");
+        });
     }
 }

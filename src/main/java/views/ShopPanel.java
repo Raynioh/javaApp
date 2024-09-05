@@ -1,6 +1,7 @@
 package views;
 
 import models.Article;
+import models.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class ShopPanel extends JPanel {
     private List<Article> articles;
     private AppFrame appFrame;
 
-    public ShopPanel(AppFrame appFrame) {
+    public ShopPanel(AppFrame appFrame, User user) {
         this.appFrame = appFrame;
         this.articles = createArticles();
         setLayout(new GridLayout(articles.size() + 2, 1, 10, 10));
@@ -37,9 +38,16 @@ public class ShopPanel extends JPanel {
         buyPanel.add(buyButton, BorderLayout.EAST);
         add(buyPanel);
 
-        profileButton.addActionListener(e -> appFrame.switchTo("UserProfilePanel"));
-        logoutButton.addActionListener(e -> appFrame.switchTo("LoginPanel"));
-        buyButton.addActionListener(e -> appFrame.switchTo("CartPanel"));
+        profileButton.addActionListener(e -> {
+            appFrame.showUserProfile();
+        });
+        logoutButton.addActionListener(e -> {
+            appFrame.logoutUser();
+            appFrame.switchTo("LoginPanel");
+        });
+        buyButton.addActionListener(e -> {
+            appFrame.showCart();
+        });
     }
 
     private JPanel createArticlePanel(Article article) {

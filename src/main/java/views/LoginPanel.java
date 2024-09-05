@@ -50,7 +50,8 @@ public class LoginPanel extends JPanel {
 
                 //prominiti u !=
                 if(user == null){
-                    appFrame.switchTo("ShopPanel"); // Switch to ShopPanel after successful login
+                    appFrame.setUser(user);
+                    appFrame.showShop(); // Switch to ShopPanel after successful login
                 } else {
 
                 }
