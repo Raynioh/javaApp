@@ -10,23 +10,26 @@ public class User {
     String password;
     String email;
     String address;
+    boolean admin;
     Map<Article, Integer> articles;
 
 
-    public User(int userId, String username, String password, String email, String address) {
+    public User(int userId, String username, String password, String email, String address, boolean admin) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.address = address;
+        this.admin = admin;
     }
 
-    public User(int userId, String username, String password, String email, String address, Map<Article, Integer> articles) {
+    public User(int userId, String username, String password, String email, String address, boolean admin, Map<Article, Integer> articles) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.address = address;
+        this.admin = admin;
         this.articles = articles;
     }
 
@@ -48,6 +51,10 @@ public class User {
 
     public String getAddress() {
         return address;
+    }
+
+    public boolean getAdminStatus() {
+        return admin;
     }
 
     public Map<Article, Integer> getArticles() {

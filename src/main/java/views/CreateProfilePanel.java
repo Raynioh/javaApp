@@ -13,13 +13,17 @@ public class CreateProfilePanel extends JPanel {
     private JTextField emailField;
     private JTextField addressField;
     private JLabel statusLabel;
+    private JPanel radioPanel;
+    private ButtonGroup radioButtons;
+    private JRadioButton adminButton;
+    private JRadioButton userButton;
     private LoginController lc = new LoginController();
 
 
     public CreateProfilePanel(AppFrame appFrame) {
         setLayout(new BorderLayout());
 
-        JPanel fieldsPanel = new JPanel(new GridLayout(5, 2));
+        JPanel fieldsPanel = new JPanel(new GridLayout(6, 2));
         JPanel buttonPanel = new JPanel();
 
         fieldsPanel.add(new JLabel("Username:"));
@@ -37,6 +41,21 @@ public class CreateProfilePanel extends JPanel {
         fieldsPanel.add(new JLabel("Address:"));
         addressField = new JTextField(15);
         fieldsPanel.add(addressField);
+
+        fieldsPanel.add(new JLabel("Admin:"));
+        radioButtons = new ButtonGroup();
+        userButton = new JRadioButton("No");
+        adminButton = new JRadioButton("Yes");
+        radioPanel = new JPanel();
+
+        userButton.setSelected(true);
+        userButton.setActionCommand("user");
+        adminButton.setActionCommand("admin");
+        radioButtons.add(userButton);
+        radioButtons.add(adminButton);
+        radioPanel.add(userButton);
+        radioPanel.add(adminButton);
+        fieldsPanel.add(radioPanel);
 
         statusLabel = new JLabel();
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,8 +90,9 @@ public class CreateProfilePanel extends JPanel {
         String password = new String(passwordField.getPassword());
         String email = emailField.getText();
         String address = addressField.getText();
+        boolean admin = radioButtons.getSelection().getActionCommand().equals("admin");
 
-        if (lc.createProfile(username, password, email, address)) {
+        if (lc.createProfile(username, password, email, address, admin)) {
             statusLabel.setText("Profile created successfully!");
             statusLabel.setForeground(Color.GREEN);
         } else {

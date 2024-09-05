@@ -43,7 +43,7 @@ public class AppFrame extends JFrame {
         } else if (panelName.equals("UserProfilePanel")) {
             setSize(350, 300);
         } else {
-            setSize(350, 250);
+            setSize(350, 350);
         }
     }
 

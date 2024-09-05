@@ -22,7 +22,7 @@ public class LoginController {
         }
     }
 
-    public boolean createProfile(String username, String password, String email, String address) {
+    public boolean createProfile(String username, String password, String email, String address, boolean admin) {
         if(db.getUserByUsername(username) != null){
             return false;
         }
@@ -30,7 +30,7 @@ public class LoginController {
         //finding new ID
         int id = db.getUsers().stream().mapToInt(value -> value.getUserId()).max().orElse(0) + 1;
 
-        User user = new User(id, username, password, email, address);
+        User user = new User(id, username, password, email, address, admin);
 
         db.createUser(user);
         return true;
