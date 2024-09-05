@@ -46,11 +46,11 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User user = handleLogin();
+                int userID = handleLogin();
 
                 //prominiti u !=
-                if(user == null){
-                    appFrame.setUser(user);
+                if(userID == -1){
+                    appFrame.setUser(userID);
                     appFrame.showShop(); // Switch to ShopPanel after successful login
                 } else {
 
@@ -66,12 +66,12 @@ public class LoginPanel extends JPanel {
         });
     }
 
-    private User handleLogin() {
+    private int handleLogin() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        User user = lc.getUser(username, password);
-        if (user != null) {
+        int userID = lc.getUser(username, password);
+        if (userID != -1) {
             statusLabel.setText("Login successful!");
             statusLabel.setForeground(Color.GREEN);
         } else {
@@ -79,6 +79,6 @@ public class LoginPanel extends JPanel {
             statusLabel.setForeground(Color.RED);
         }
 
-        return user;
+        return userID;
     }
 }

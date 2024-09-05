@@ -11,19 +11,19 @@ public class LoginController {
 
     }
 
-    public User getUser(String username, String password) {
-        User user = db.getUser(username);
+    public int getUser(String username, String password) {
+        User user = db.getUserByUsername(username);
 
         if(user == null || !password.equals(user.getPassword())){
             //krivi password ili ne postoji
-            return null;
+            return -1;
         } else {
-            return user;
+            return user.getUserId();
         }
     }
 
     public boolean createProfile(String username, String password, String email, String address) {
-        if(db.getUser(username) != null){
+        if(db.getUserByUsername(username) != null){
             return false;
         }
 

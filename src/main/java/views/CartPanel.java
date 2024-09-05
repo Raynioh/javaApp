@@ -12,7 +12,7 @@ public class CartPanel extends JPanel {
     private List<Article> articles;
     private AppFrame appFrame;
 
-    public CartPanel(AppFrame appFrame, User user) {
+    public CartPanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
         this.articles = createArticles();
         setLayout(new BorderLayout());

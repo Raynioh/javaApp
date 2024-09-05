@@ -14,7 +14,11 @@ public class DataBase {
         articles = new LinkedList<Article>();
     }
 
-    public User getUser(String username) {
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
+    public User getUserByID(int userID) {
         return null;
     }
 
@@ -28,6 +32,10 @@ public class DataBase {
 
     public User createUser(User user) {
         return null;
+    }
+
+    public void saveUser(User user) {
+
     }
 
 }

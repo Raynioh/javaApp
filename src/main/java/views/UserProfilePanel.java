@@ -8,7 +8,7 @@ import java.awt.*;
 public class UserProfilePanel extends JPanel {
     private AppFrame appFrame;
 
-    public UserProfilePanel(AppFrame appFrame, User user) {
+    public UserProfilePanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
 
         setLayout(new BorderLayout());

@@ -53,4 +53,12 @@ public class User {
     public Map<Article, Integer> getArticles() {
         return articles;
     }
+
+    public void addArticles(Article article, int quantity) {
+        if(articles.containsKey(article)) {
+            articles.replace(article, quantity + articles.get(article));
+        } else {
+            articles.put(article, quantity);
+        }
+    }
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 public class AppFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private User currentUser;
+    private int currentUserID;
 
     public AppFrame() {
         setTitle("User Authentication App");
@@ -48,29 +48,29 @@ public class AppFrame extends JFrame {
     }
 
     public void showCart() {
-        CartPanel cartPanel = new CartPanel(this, currentUser);
+        CartPanel cartPanel = new CartPanel(this, currentUserID);
         mainPanel.add(cartPanel, "CartPanel");
         switchTo("CartPanel");
     }
 
     public void showShop() {
-        ShopPanel shopPanel = new ShopPanel(this, currentUser);
+        ShopPanel shopPanel = new ShopPanel(this, currentUserID);
         mainPanel.add(shopPanel, "ShopPanel");
         switchTo("ShopPanel");
     }
 
     public void showUserProfile() {
-        UserProfilePanel userProfilePanel = new UserProfilePanel(this, currentUser);
+        UserProfilePanel userProfilePanel = new UserProfilePanel(this, currentUserID);
         mainPanel.add(userProfilePanel, "UserProfilePanel");
         switchTo("UserProfilePanel");
     }
 
-    public void setUser(User user) {
-        this.currentUser = user;
+    public void setUser(int userID) {
+        this.currentUserID = userID;
     }
 
     public void logoutUser() {
-        this.currentUser = null;
+        this.currentUserID = -1;
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package views;
 
+import controllers.ShopController;
 import models.Article;
 import models.User;
 
@@ -11,8 +12,9 @@ import java.util.List;
 public class ShopPanel extends JPanel {
     private List<Article> articles;
     private AppFrame appFrame;
+    private ShopController sc = new ShopController();
 
-    public ShopPanel(AppFrame appFrame, User user) {
+    public ShopPanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
         this.articles = createArticles();
         setLayout(new GridLayout(articles.size() + 2, 1, 10, 10));
@@ -21,22 +23,24 @@ public class ShopPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton profileButton = new JButton("My profile");
+        JButton cartButton = new JButton("My cart");
         JButton logoutButton = new JButton("Logout");
 
         buttonPanel.add(profileButton);
+        buttonPanel.add(cartButton);
         buttonPanel.add(logoutButton);
         appBar.add(buttonPanel, BorderLayout.NORTH);
 
         add(appBar);
 
         for (Article article : articles) {
-            add(createArticlePanel(article));
+            add(createArticlePanel(article, userID));
         }
 
-        JPanel buyPanel = new JPanel();
-        JButton buyButton = new JButton("Buy");
-        buyPanel.add(buyButton, BorderLayout.EAST);
-        add(buyPanel);
+        JPanel savePanel = new JPanel();
+        JButton saveButton = new JButton("Save to cart");
+        savePanel.add(saveButton, BorderLayout.EAST);
+        add(savePanel);
 
         profileButton.addActionListener(e -> {
             appFrame.showUserProfile();
@@ -45,12 +49,15 @@ public class ShopPanel extends JPanel {
             appFrame.logoutUser();
             appFrame.switchTo("LoginPanel");
         });
-        buyButton.addActionListener(e -> {
+        cartButton.addActionListener(e -> {
             appFrame.showCart();
+        });
+        saveButton.addActionListener(e -> {
+
         });
     }
 
-    private JPanel createArticlePanel(Article article) {
+    private JPanel createArticlePanel(Article article, int userID) {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Left side (Image and Name)
@@ -66,12 +73,23 @@ public class ShopPanel extends JPanel {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         JLabel priceLabel = new JLabel("Price: €" + article.getPrice());
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1)); // Default to 0, max 100
+        JButton addButton = new JButton("Add to Cart");
+
         rightPanel.add(priceLabel);
         rightPanel.add(quantitySpinner);
+        rightPanel.add(addButton);
 
         // Add both sides to the panel
         panel.add(leftPanel, BorderLayout.WEST);
         panel.add(rightPanel, BorderLayout.EAST);
+
+        addButton.addActionListener(e -> {
+            int quantity = (int) quantitySpinner.getValue();
+            if (quantity > 0) {
+                sc.addArticles(userID, article, quantity);
+                JOptionPane.showMessageDialog(this, "Item added to cart!");
+            }
+        });
 
         return panel;
     }
