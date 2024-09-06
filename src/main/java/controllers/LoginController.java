@@ -3,16 +3,27 @@ package controllers;
 import models.DataBase;
 import models.User;
 
+import java.sql.SQLException;
+
 public class LoginController {
 
     private DataBase db = new DataBase();
 
     public LoginController() {
-
+        try {
+            db.connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getUser(String username, String password) {
-        User user = db.getUserByUsername(username);
+        User user = null;
+        try {
+            user = db.loadUserByUsernameFromDB(username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         if(user == null || !password.equals(user.getPassword())){
             //krivi password ili ne postoji
@@ -23,16 +34,36 @@ public class LoginController {
     }
 
     public boolean createProfile(String username, String password, String email, String address, boolean admin) {
-        if(db.getUserByUsername(username) != null){
-            return false;
+        try {
+            if(db.loadUserByUsernameFromDB(username) != null){
+                System.out.println("username exists");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         //finding new ID
-        int id = db.getUsers().stream().mapToInt(value -> value.getUserId()).max().orElse(0) + 1;
+        int id = -1;
+        try {
+            id = db.createNewID("users", "userId");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(id == -1) {
+            return false;
+        }
 
         User user = new User(id, username, password, email, address, admin);
 
-        db.createUser(user);
-        return true;
+        db.addUser(user);
+        try {
+            db.saveUsers2DB();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

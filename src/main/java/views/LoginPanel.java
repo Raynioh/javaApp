@@ -48,8 +48,7 @@ public class LoginPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int userID = handleLogin();
 
-                //prominiti u !=
-                if(userID == -1){
+                if(userID != -1){
                     appFrame.setUser(userID);
                     appFrame.showShop(); // Switch to ShopPanel after successful login
                 } else {
