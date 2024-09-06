@@ -17,7 +17,7 @@ public class ShopPanel extends JPanel {
     public ShopPanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
         this.articles = sc.getArticles();
-        setLayout(new GridLayout(articles.size() + 2, 1, 10, 10));
+        setLayout(new GridLayout(articles.size() + 1, 1, 10, 10));
 
         JPanel appBar = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -37,11 +37,6 @@ public class ShopPanel extends JPanel {
             add(createArticlePanel(article, userID));
         }
 
-        JPanel savePanel = new JPanel();
-        JButton saveButton = new JButton("Save to cart");
-        savePanel.add(saveButton, BorderLayout.EAST);
-        add(savePanel);
-
         profileButton.addActionListener(e -> {
             appFrame.showUserProfile();
         });
@@ -51,9 +46,6 @@ public class ShopPanel extends JPanel {
         });
         cartButton.addActionListener(e -> {
             appFrame.showCart();
-        });
-        saveButton.addActionListener(e -> {
-
         });
     }
 

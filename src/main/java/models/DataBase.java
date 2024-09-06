@@ -100,7 +100,7 @@ public class DataBase {
                 return;
             }
 
-            String selSql = "select articleId from buying where userId = ?";
+            String selSql = "select articleId, number from buying where userId = ?";
             String insSql = "insert into buying (number, userId, articleId) values (?,?,?)";
             String updSql = "update buying set number = ? where userId = ? and articleId = ?";
 
@@ -111,13 +111,17 @@ public class DataBase {
             selStm.setInt(1, userID);
             ResultSet result = selStm.executeQuery();
 
+            int oldQuantity = 0;
             List<Integer> list = new ArrayList<>();
             while(result.next()){
+                if(result.getInt(1) == articleID) {
+                    oldQuantity = result.getInt(2);
+                }
                 list.add(result.getInt(1));
             }
 
             int col = 1;
-            if(list.contains(articleID)) {
+            if(!list.contains(articleID)) {
                 //insert
 
                 insrStm.setInt(1, quantity);
@@ -128,7 +132,7 @@ public class DataBase {
             } else {
                 //update
 
-                updStm.setInt(1, quantity);
+                updStm.setInt(1, quantity + oldQuantity);
                 updStm.setInt(2, userID);
                 updStm.setInt(3, articleID);
 
