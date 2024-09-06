@@ -16,7 +16,7 @@ public class ShopPanel extends JPanel {
 
     public ShopPanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
-        this.articles = createArticles();
+        this.articles = sc.getArticles();
         setLayout(new GridLayout(articles.size() + 2, 1, 10, 10));
 
         JPanel appBar = new JPanel(new BorderLayout());
@@ -92,14 +92,5 @@ public class ShopPanel extends JPanel {
         });
 
         return panel;
-    }
-
-    private List<Article> createArticles() {
-        // Normally article would be fetched from a database or another source
-        List<Article> article = new ArrayList<>();
-        article.add(new Article(1, "Eggs", 2.49f, "src/main/resources/eggs.jpg"));
-        article.add(new Article(2, "Milk", 1.49f, "src/main/resources/milk.jpg"));
-        article.add(new Article(3, "Bread", 0.5f, "src/main/resources/bread.png"));
-        return article;
     }
 }

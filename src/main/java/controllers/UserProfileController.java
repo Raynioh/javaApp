@@ -12,14 +12,26 @@ public class UserProfileController {
 
 
     public UserProfileController() {
-        this.db = db;
-    }
+        try {
+            db.connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }    }
 
     public void changeUserInfo(int userID, String username, String email, String address) {
 
-        User user = db.getUserByID(userID);
+        User user = null;
+        try {
+            user = db.loadUserByIDFromDB(userID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        User newUser = new User(userID, user.getPassword(), username, email, address, user.getAdminStatus(), user.getArticles());
+        if(user == null){
+            return;
+        }
+
+        User newUser = new User(userID, username, user.getPassword(), email, address, user.getAdminStatus(), user.getArticles());
 
         db.addUser(newUser);
         try {
@@ -30,7 +42,13 @@ public class UserProfileController {
     }
 
     public User getUser(int userID) {
-        return db.getUserByID(userID);
+        try {
+            return db.loadUserByIDFromDB(userID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

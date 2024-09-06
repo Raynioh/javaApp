@@ -85,6 +85,61 @@ public class DataBase {
         return -1;
     }
 
+    public void saveUserArticles2DB(int userID, int articleID, int quantity) throws SQLException {
+        if(con != null) {
+            PreparedStatement userCheck = con.prepareStatement("select count(*) as count from users where userId = ?");
+            PreparedStatement articleCheck = con.prepareStatement("select count(*) as count from articles where articleId = ?");
+
+            userCheck.setInt(1, userID);
+            articleCheck.setInt(1, articleID);
+
+            ResultSet userNum = userCheck.executeQuery();
+            ResultSet articleNum = articleCheck.executeQuery();
+
+            userNum.next();
+            articleNum.next();
+
+            if(userNum.getInt(1) == 0 || articleNum.getInt(1) == 0){
+                return;
+            }
+
+            String selSql = "select articleId from buying where userId = ?";
+            String insSql = "insert into buying (number, userId, articleId) values (?,?,?)";
+            String updSql = "update buying set number = ? where userId = ? and articleId = ?";
+
+            PreparedStatement selStm = con.prepareStatement(selSql);
+            PreparedStatement insrStm = con.prepareStatement(insSql);
+            PreparedStatement updStm = con.prepareStatement(updSql);
+
+            selStm.setInt(1, userID);
+            ResultSet result = selStm.executeQuery();
+
+            List<Integer> list = new ArrayList<>();
+            while(result.next()){
+                list.add(result.getInt(1));
+            }
+
+            int col = 1;
+            if(list.contains(articleID)) {
+                //insert
+
+                insrStm.setInt(1, quantity);
+                insrStm.setInt(2, userID);
+                insrStm.setInt(3, articleID);
+
+                insrStm.executeUpdate();
+            } else {
+                //update
+
+                updStm.setInt(1, quantity);
+                updStm.setInt(2, userID);
+                updStm.setInt(3, articleID);
+
+                updStm.executeUpdate();
+            }
+        }
+    }
+
     public void saveUsers2DB() throws SQLException {
         if(con != null) {
             // SQL queries
@@ -223,5 +278,27 @@ public class DataBase {
         }
 
         return null;
+    }
+
+    public void loadArticlesFromDB() throws SQLException {
+        if(con != null) {
+            System.out.println("Loading from DB...");
+            String slctSQL = "select articleId, articleName, price, pictPath from articles";
+            PreparedStatement slcStm = con.prepareStatement(slctSQL);
+
+            ResultSet slcResult = slcStm.executeQuery();
+
+            while(slcResult.next()) {
+                int articleId = slcResult.getInt(1);
+                String articleName = slcResult.getString(2);
+                float price = slcResult.getFloat(3);
+                String pictPath = slcResult.getString(4);
+                Article article = new Article(articleId, articleName, price, pictPath);
+                articles.add(article);
+            }
+
+            slcResult.close();
+            slcStm.close();
+        }
     }
 }
