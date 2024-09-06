@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CartController;
 import models.Article;
 import models.User;
 
@@ -7,14 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CartPanel extends JPanel {
-    private List<Article> articles;
+    private Map<Article, Integer> articles;
     private AppFrame appFrame;
+    private CartController cc = new CartController();
 
     public CartPanel(AppFrame appFrame, int userID) {
         this.appFrame = appFrame;
-        this.articles = createArticles();
+        this.articles = cc.getUserArticles(userID);
         setLayout(new BorderLayout());
 
         // Create the app bar with "Back to Shop" and "Logout" buttons
@@ -32,7 +35,9 @@ public class CartPanel extends JPanel {
         JPanel cartContent = new JPanel();
         cartContent.setLayout(new GridLayout(articles.size() + 1, 4, 10, 10));
 
-        for (Article article : articles) {
+        for (Map.Entry<Article, Integer> e: articles.entrySet()) {
+            Article article = e.getKey();
+            int quantity = e.getValue();
             // Item Image and Name
             JLabel imageLabel = new JLabel(new ImageIcon(article.getPathToPic()));
             JLabel nameLabel = new JLabel(article.getArticleName());
@@ -40,7 +45,7 @@ public class CartPanel extends JPanel {
             cartContent.add(nameLabel);
 
             // Item Quantity
-            JLabel quantityLabel = new JLabel("Qty: " + "1");
+            JLabel quantityLabel = new JLabel("Qty: " + quantity);
             cartContent.add(quantityLabel);
 
             // Item Price
@@ -68,16 +73,7 @@ public class CartPanel extends JPanel {
         });
     }
 
-    private List<Article> createArticles() {
-        // Normally article would be fetched from a database or another source
-        List<Article> article = new ArrayList<>();
-        article.add(new Article(1, "Eggs", 2.49f, "src/main/resources/eggs.jpg"));
-        article.add(new Article(2, "Milk", 1.49f, "src/main/resources/milk.jpg"));
-        article.add(new Article(3, "Bread", 0.5f, "src/main/resources/bread.png"));
-        return article;
-    }
-
     private double calculateTotalPrice() {
-        return articles.stream().mapToDouble(value -> value.getPrice()).sum();
+        return articles.entrySet().stream().mapToDouble(value -> value.getValue() * value.getKey().getPrice()).sum();
     }
 }

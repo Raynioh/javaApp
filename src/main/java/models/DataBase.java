@@ -1,10 +1,7 @@
 package models;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class DataBase {
 
@@ -275,6 +272,42 @@ public class DataBase {
             slcStm.close();
 
             return user;
+        }
+
+        return null;
+    }
+
+    public Map<Article, Integer> loadUserArticlesFromDB(int userID) throws SQLException {
+        if(con != null) {
+            String sql = "select number, articleId from buying where userId = ?";
+            PreparedStatement sqlStm = con.prepareStatement(sql);
+            sqlStm.setInt(1, userID);
+            ResultSet result = sqlStm.executeQuery();
+
+            Map<Integer, Integer> articles = new HashMap<>();
+            while(result.next()) {
+                articles.put(result.getInt(2), result.getInt(1));
+            }
+
+            Map<Article, Integer> ret = new HashMap<>();
+            for(Map.Entry<Integer, Integer> e: articles.entrySet()) {
+                String q = "select * from articles where articleId = ?";
+                PreparedStatement artStm = con.prepareStatement(q);
+
+                artStm.setInt(1, e.getKey());
+                ResultSet r = artStm.executeQuery();
+                r.next();
+
+                int articleId = r.getInt(1);
+                String articleName = r.getString(2);
+                float price = r.getFloat(3);
+                String pictPath = r.getString(4);
+                Article article = new Article(articleId, articleName, price, pictPath);
+
+                ret.put(article, e.getValue());
+            }
+
+            return ret;
         }
 
         return null;
