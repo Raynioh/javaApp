@@ -106,7 +106,6 @@ public class DataBase {
             PreparedStatement slcStm = con.prepareStatement(slctSQL);
 
             ResultSet slcResult = slcStm.executeQuery();
-            programmers.clear(); // empty local database
 
             while(slcResult.next()) {
                 int id = slcResult.getInt(1);
