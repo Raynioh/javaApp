@@ -30,4 +30,14 @@ public class Article {
     public String getPathToPic() {
         return pathToPic;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "articleId=" + articleId +
+                ", articleName='" + articleName + '\'' +
+                ", price=" + price +
+                ", pathToPic='" + pathToPic + '\'' +
+                '}';
+    }
 }

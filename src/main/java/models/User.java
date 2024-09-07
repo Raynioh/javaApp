@@ -61,11 +61,28 @@ public class User {
         return articles;
     }
 
+    public void setArticles(Map<Article, Integer> articles) {
+        this.articles = articles;
+    }
+
     public void addArticles(Article article, int quantity) {
         if(articles.containsKey(article)) {
             articles.replace(article, quantity + articles.get(article));
         } else {
             articles.put(article, quantity);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", admin=" + admin +
+                ", articles=" + articles +
+                '}';
     }
 }

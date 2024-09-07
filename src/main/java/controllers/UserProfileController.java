@@ -18,17 +18,22 @@ public class UserProfileController {
             e.printStackTrace();
         }    }
 
-    public void changeUserInfo(int userID, String username, String email, String address) {
-
+    public boolean changeUserInfo(int userID, String username, String email, String address) {
         User user = null;
+
         try {
+            User temp = db.loadUserByUsernameFromDB(username);
             user = db.loadUserByIDFromDB(userID);
+
+            if(temp != null && !username.equals(user.getUsername())) {
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         if(user == null){
-            return;
+            return false;
         }
 
         User newUser = new User(userID, username, user.getPassword(), email, address, user.getAdminStatus(), user.getArticles());
@@ -38,7 +43,10 @@ public class UserProfileController {
             db.saveUsers2DB();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 
     public User getUser(int userID) {

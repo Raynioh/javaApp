@@ -22,15 +22,11 @@ public class AppFrame extends JFrame {
         // Initialize and add different panels to the main panel
         LoginPanel loginPanel = new LoginPanel(this);
         CreateProfilePanel createProfilePanel = new CreateProfilePanel(this);
-//        ShopPanel shopPanel = new ShopPanel(this);
-//        UserProfilePanel userProfilePanel = new UserProfilePanel(this);
-//        CartPanel cartPanel = new CartPanel(this);
+        AdminPanel adminPanel = new AdminPanel(this);
 
         mainPanel.add(loginPanel, "LoginPanel");
         mainPanel.add(createProfilePanel, "CreateProfilePanel");
-//        mainPanel.add(shopPanel, "ShopPanel");
-//        mainPanel.add(userProfilePanel, "UserProfilePanel");
-//        mainPanel.add(cartPanel, "CartPanel");
+        mainPanel.add(adminPanel, "AdminPanel");
 
         add(mainPanel);
     }

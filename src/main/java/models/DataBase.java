@@ -16,24 +16,12 @@ public class DataBase {
         articles = new LinkedList<Article>();
     }
 
-    public User getUserByUsername(String username) {
-        return null;
-    }
-
-    public User getUserByID(int userID) {
-        return null;
-    }
-
     public List<User> getUsers() {
         return users;
     }
 
     public List<Article> getArticles() {
         return articles;
-    }
-
-    public User createUser(User user) {
-        return null;
     }
 
     public void addUser(User user) {
@@ -269,7 +257,7 @@ public class DataBase {
             String password = slcResult.getString(3);
             String email = slcResult.getString(4);
             String address = slcResult.getString(5);
-            boolean admin = Boolean.getBoolean(slcResult.getString(6));
+            boolean admin = Boolean.parseBoolean(slcResult.getString(6));
             User user = new User(userId, username, password, email, address, admin);
 
             slcResult.close();
