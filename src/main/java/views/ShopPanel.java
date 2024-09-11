@@ -42,7 +42,7 @@ public class ShopPanel extends JPanel {
         });
         logoutButton.addActionListener(e -> {
             appFrame.logoutUser();
-            appFrame.switchTo("LoginPanel");
+            appFrame.showLogin();
         });
         cartButton.addActionListener(e -> {
             appFrame.showCart();

@@ -43,6 +43,12 @@ public class AppFrame extends JFrame {
         }
     }
 
+    public void showLogin() {
+        LoginPanel loginPanel = new LoginPanel(this);
+        mainPanel.add(loginPanel, "LoginPanel");
+        switchTo("LoginPanel");
+    }
+
     public void showCart() {
         CartPanel cartPanel = new CartPanel(this, currentUserID);
         mainPanel.add(cartPanel, "CartPanel");
@@ -59,6 +65,10 @@ public class AppFrame extends JFrame {
         UserProfilePanel userProfilePanel = new UserProfilePanel(this, currentUserID);
         mainPanel.add(userProfilePanel, "UserProfilePanel");
         switchTo("UserProfilePanel");
+    }
+
+    public void removePanel(Component comp) {
+        mainPanel.remove(comp);
     }
 
     public void setUser(int userID) {

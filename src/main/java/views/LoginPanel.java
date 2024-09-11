@@ -43,12 +43,14 @@ public class LoginPanel extends JPanel {
         add(fieldsPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        Component comp = this;
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int userID = handleLogin();
 
                 if(userID != -1){
+                    appFrame.removePanel(comp);
                     appFrame.setUser(userID);
                     appFrame.showShop(); // Switch to ShopPanel after successful login
                 } else {
